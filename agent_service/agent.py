@@ -59,7 +59,7 @@ def create_document(title: str, content: str) -> Document:
 
 
 @agent.tool_plain
-def update_document(doc_id: str, changes: dict) -> Document:
+def update_document(doc_id: str, changes: dict[str, str]) -> Document:
     return _mcp.update(doc_id, changes)
 
 

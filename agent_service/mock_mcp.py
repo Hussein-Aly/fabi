@@ -13,14 +13,20 @@ class MockMCPClient:
         return doc
 
     def read(self, doc_id: str) -> Document:
+        if doc_id not in self._store:
+            raise ValueError(f"Document not found: {doc_id}")
         return self._store[doc_id]
 
-    def update(self, doc_id: str, changes: dict) -> Document:
+    def update(self, doc_id: str, changes: dict[str, str]) -> Document:
+        if doc_id not in self._store:
+            raise ValueError(f"Document not found: {doc_id}")
         doc = self._store[doc_id].model_copy(update=changes)
         self._store[doc_id] = doc
         return doc
 
     def delete(self, doc_id: str) -> DeletionResult:
+        if doc_id not in self._store:
+            raise ValueError(f"Document not found: {doc_id}")
         del self._store[doc_id]
         return DeletionResult(deleted_id=doc_id, success=True)
 

@@ -40,31 +40,32 @@ async def agent_endpoint(request: Request) -> StreamingResponse:
     # Wrap the streaming response to intercept and log tool events.
     async def logged_event_stream():
         response = await handle_ag_ui_request(agent, request, deps=deps)
-        # handle_ag_ui_request returns a StreamingResponse; iterate its body.
+        buffer = ""
         async for chunk in response.body_iterator:
-            if isinstance(chunk, (bytes, bytearray)):
-                text = chunk.decode()
-            else:
-                text = chunk
-            # Each SSE chunk is "data: {json}\n\n"; parse for logging.
-            for line in text.splitlines():
-                if line.startswith("data: "):
-                    try:
-                        payload = json.loads(line[6:])
-                        event_type = payload.get("type", "")
-                        if event_type == "TOOL_CALL_START":
-                            logger.info(json.dumps({
-                                "event": "tool_call",
-                                "tool": payload.get("toolCallName"),
-                                "id": payload.get("toolCallId"),
-                            }))
-                        elif event_type == "TOOL_CALL_RESULT":
-                            logger.info(json.dumps({
-                                "event": "tool_result",
-                                "tool": payload.get("toolCallId"),
-                            }))
-                    except (json.JSONDecodeError, AttributeError):
-                        pass
-            yield text
+            text = chunk.decode() if isinstance(chunk, (bytes, bytearray)) else chunk
+            buffer += text
+            *complete_frames, buffer = buffer.split("\n\n")
+            for frame in complete_frames:
+                for line in frame.splitlines():
+                    if line.startswith("data: "):
+                        try:
+                            payload = json.loads(line[6:])
+                            event_type = payload.get("type", "")
+                            if event_type == "TOOL_CALL_START":
+                                logger.info(json.dumps({
+                                    "event": "tool_call",
+                                    "tool": payload.get("toolCallName"),
+                                    "id": payload.get("toolCallId"),
+                                }))
+                            elif event_type == "TOOL_CALL_RESULT":
+                                logger.info(json.dumps({
+                                    "event": "tool_result",
+                                    "tool": payload.get("toolCallName"),
+                                }))
+                        except (json.JSONDecodeError, AttributeError):
+                            pass
+                yield frame + "\n\n"
+        if buffer:
+            yield buffer
 
     return StreamingResponse(logged_event_stream(), media_type="text/event-stream")
