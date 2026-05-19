@@ -1,0 +1,19 @@
+## eGov Suite > Dataimport
+
+### Supported File Formats
+This platform supports importing data from **XLSX** files (Microsoft Excel format, .xlsx extension).
+
+### Excluded Formats
+**PDF files are explicitly excluded** from import functionality. Convert PDFs to XLSX before attempting import.
+
+### Import Steps
+1. Prepare your XLSX file with headers in row 1.
+2. Ensure data columns match platform schema (e.g., Name, Date, Amount).
+3. Upload via "Data Import" → "Select XLSX File".
+
+### Sample XLSX Structure
+| ID | Product | Quantity | Price |
+|----|---------|----------|-------|
+| 1  | WidgetA | 100     | 25.50 |
+| 2  | WidgetB | 75      | 18.75 |
+

@@ -1,0 +1,311 @@
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "Your name is Johnny, the Assistant of the XY Company \n\n ## Infos \n\n The current date and time is Monday, May 04, 2026 at 02:50:16 PM."
+    },
+    {
+      "role": "user",
+      "content": "test"
+    },
+    {
+      "role": "assistant",
+      "content": "Hello, I'm Johnny, the Assistant of the XY Company.\nI can help you with the following tasks:\n\n- Holidays: List available holiday packages, get details about a specific package, book a holiday, list all bookings, and cancel an existing booking.\n- Emails: Send an email, and view emails with optional filters.\n- Calendar: Create a calendar event, and view calendar events with optional filters.\n\nWhat would you like me to do for you?"
+    },
+    {
+      "role": "user",
+      "content": "list all calender entries"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "n7bhtAiGM",
+          "type": "function",
+          "function": {
+            "name": "view_calendar_events",
+            "arguments": "{}"
+          }
+        }
+      ]
+    },
+    {
+      "role": "tool",
+      "tool_call_id": "n7bhtAiGM",
+      "content": "[\n  {\n    \"id\": 1,\n    \"title\": \"Team Standup\",\n    \"description\": \"Daily team sync\",\n    \"start_time\": \"2026-04-25T09:00:00\",\n    \"end_time\": \"2026-04-25T09:30:00\",\n    \"location\": \"Conference Room A\",\n    \"attendees\": [\n      \"alice@example.com\",\n      \"bob@example.com\"\n    ]\n  },\n  {\n    \"id\": 2,\n    \"title\": \"Lunch with Client\",\n    \"description\": \"Discuss new partnership opportunities\",\n    \"start_time\": \"2026-04-25T12:00:00\",\n    \"end_time\": \"2026-04-25T13:30:00\",\n    \"location\": \"Downtown Bistro\",\n    \"attendees\": [\n      \"client@company.com\"\n    ]\n  },\n  {\n    \"id\": 3,\n    \"title\": \"Product Demo\",\n    \"description\": \"Quarterly product showcase\",\n    \"start_time\": \"2026-04-26T15:00:00\",\n    \"end_time\": \"2026-04-26T16:00:00\",\n    \"location\": \"Virtual - Zoom\",\n    \"attendees\": [\n      \"team@example.com\"\n    ]\n  },\n  {\n    \"id\": 4,\n    \"title\": \"Party\",\n    \"description\": \"\",\n    \"start_time\": \"2026-05-05T14:00:00\",\n    \"end_time\": \"2026-05-05T15:00:00\",\n    \"location\": \"Vienna\",\n    \"attendees\": []\n  }\n]"
+    },
+    {
+      "role": "assistant",
+      "content": "Here are your upcoming calendar events:\n\n| ID  | Title           | Description                     | Start Time            | End Time              | Location         | Attendees                              |\n|-----|-----------------|---------------------------------|-----------------------|-----------------------|------------------|----------------------------------------|\n| 1   | Team Standup    | Daily team sync                 | 2026-04-25 09:00:00   | 2026-04-25 09:30:00   | Conference Room A| alice@example.com, bob@example.com     |\n| 2   | Lunch with Client | Discuss new partnership opportunities | 2026-04-25 12:00:00   | 2026-04-25 13:30:00   | Downtown Bistro  | client@company.com                     |\n| 3   | Product Demo    | Quarterly product showcase      | 2026-04-26 15:00:00   | 2026-04-26 16:00:00   | Virtual - Zoom   | team@example.com                       |\n| 4   | Party           |                                 | 2026-05-05 14:00:00   | 2026-05-05 15:00:00   | Vienna            |                                        |"
+    },
+    {
+      "role": "user",
+      "content": "test 2"
+    }
+  ],
+  "model": "mistral-llm",
+  "stream": true,
+  "stream_options": {
+    "include_usage": true
+  },
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "list_holidays",
+        "description": "List all available holiday packages, optionally filtered by destination keyword.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "destination_filter": {
+              "default": "",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_holiday_details",
+        "description": "Get detailed information about a specific holiday package by its ID.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "holiday_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "holiday_id"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "book_holiday",
+        "description": "Book a holiday package.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "holiday_id": {
+              "type": "string",
+              "description": "The ID of the holiday to book (e.g. H001)."
+            },
+            "traveller_name": {
+              "type": "string",
+              "description": "Full name of the lead traveller."
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Desired start date in YYYY-MM-DD format."
+            },
+            "num_travellers": {
+              "default": 1,
+              "type": "integer",
+              "description": "Number of travellers (default 1)."
+            }
+          },
+          "required": [
+            "holiday_id",
+            "traveller_name",
+            "start_date"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "list_bookings",
+        "description": "List all bookings, optionally filtered by traveller name.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "traveller_name": {
+              "default": "",
+              "type": "string",
+              "description": "Filter bookings by lead traveller name (case-insensitive, partial match)."
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "cancel_booking",
+        "description": "Cancel an existing booking by its booking ID.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "booking_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "booking_id"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "send_email",
+        "description": "Send an email.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "Recipient email address"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject line"
+            },
+            "body": {
+              "type": "string",
+              "description": "Email body content"
+            },
+            "from_email": {
+              "default": "user@example.com",
+              "type": "string",
+              "description": "Sender email address (defaults to user@example.com)"
+            }
+          },
+          "required": [
+            "to",
+            "subject",
+            "body"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "view_emails",
+        "description": "View emails with optional filters.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "sender": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by sender email address (case-insensitive, partial match)"
+            },
+            "subject_filter": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by subject line (case-insensitive, partial match)"
+            },
+            "unread_only": {
+              "default": false,
+              "type": "boolean",
+              "description": "Show only unread emails"
+            },
+            "limit": {
+              "default": 10,
+              "type": "integer",
+              "description": "Maximum number of emails to return (default 10)"
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "create_calendar_event",
+        "description": "Create a calendar event.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Event title"
+            },
+            "start_time": {
+              "type": "string",
+              "description": "Start time in ISO format (e.g., \"2026-04-25T10:00:00\")"
+            },
+            "end_time": {
+              "type": "string",
+              "description": "End time in ISO format (e.g., \"2026-04-25T11:00:00\")"
+            },
+            "description": {
+              "default": "",
+              "type": "string",
+              "description": "Event description (optional)"
+            },
+            "location": {
+              "default": "",
+              "type": "string",
+              "description": "Event location (optional)"
+            },
+            "attendees": {
+              "default": "",
+              "type": "string",
+              "description": "Comma-separated list of attendee emails (optional)"
+            }
+          },
+          "required": [
+            "title",
+            "start_time",
+            "end_time"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "view_calendar_events",
+        "description": "View calendar events with optional filters.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "start_date": {
+              "default": "",
+              "type": "string",
+              "description": "Show events after this date (ISO format, e.g., \"2026-04-25\")"
+            },
+            "end_date": {
+              "default": "",
+              "type": "string",
+              "description": "Show events before this date (ISO format, e.g., \"2026-04-30\")"
+            },
+            "title_filter": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by event title (case-insensitive, partial match)"
+            },
+            "location_filter": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by location (case-insensitive, partial match)"
+            }
+          },
+          "type": "object"
+        }
+      }
+    }
+  ]
+}

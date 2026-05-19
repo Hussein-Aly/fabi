@@ -1,0 +1,72 @@
+[
+  {
+    "parts": [
+      {
+        "content": "what holidays are there ?",
+        "timestamp": "2026-04-23T14:25:14.620023Z",
+        "part_kind": "user-prompt"
+      }
+    ],
+    "timestamp": "2026-04-23T14:25:14.620463Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019dbabb-0f0f-7646-a33c-e4d7ec6d0095",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "list_holidays",
+        "args": "{}",
+        "tool_call_id": "7Tzy957g5",
+        "id": null,
+        "provider_name": null,
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 12,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 0,
+      "output_tokens": 26,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "model_name": "mistral-llm",
+    "timestamp": "2026-04-23T14:25:15.580561Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://frontend-mb-oblivation-development.apps.openshift.sq.fabasoft.com/search/api/openai.v1.chat.completions.create/v1/",
+    "provider_details": {
+      "timestamp": "2026-04-23T14:25:15Z",
+      "finish_reason": "tool_calls"
+    },
+    "provider_response_id": "chatcmpl-a1fa3869f92368d4",
+    "finish_reason": "tool_call",
+    "run_id": "019dbabb-0f0f-7646-a33c-e4d7ec6d0095",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "list_holidays",
+        "content": "[\n  {\n    \"id\": \"H001\",\n    \"destination\": \"Maldives\",\n    \"duration_days\": 7,\n    \"price_usd\": 2500,\n    \"available_from\": \"2026-05-01\",\n    \"available_to\": \"2026-09-30\"\n  },\n  {\n    \"id\": \"H002\",\n    \"destination\": \"Bali, Indonesia\",\n    \"duration_days\": 10,\n    \"price_usd\": 1800,\n    \"available_from\": \"2026-04-01\",\n    \"available_to\": \"2026-12-31\"\n  },\n  {\n    \"id\": \"H003\",\n    \"destination\": \"Santorini, Greece\",\n    \"duration_days\": 5,\n    \"price_usd\": 3200,\n    \"available_from\": \"2026-06-01\",\n    \"available_to\": \"2026-10-15\"\n  },\n  {\n    \"id\": \"H004\",\n    \"destination\": \"Kyoto, Japan\",\n    \"duration_days\": 8,\n    \"price_usd\": 2100,\n    \"available_from\": \"2026-03-15\",\n    \"available_to\": \"2026-11-30\"\n  },\n  {\n    \"id\": \"H005\",\n    \"destination\": \"Patagonia, Argentina\",\n    \"duration_days\": 12,\n    \"price_usd\": 4000,\n    \"available_from\": \"2026-11-01\",\n    \"available_to\": \"2027-03-31\"\n  }\n]",
+        "tool_call_id": "7Tzy957g5",
+        "metadata": null,
+        "timestamp": "2026-04-23T14:25:15.608676Z",
+        "outcome": "success",
+        "part_kind": "tool-return"
+      }
+    ],
+    "timestamp": "2026-04-23T14:25:15.609291Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019dbabb-0f0f-7646-a33c-e4d7ec6d0095",
+    "metadata": null
+  }
+]

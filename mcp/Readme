@@ -1,0 +1,12 @@
+
+plink -pw Faba8888 root@fabidemoclouddevel.sq.fabasoft.com "mkdir -p /code"
+pscp -scp -r -pw Faba8888 C:\code\projects\ai-python-service-fabi\mcp root@fabidemoclouddevel.sq.fabasoft.com:/code
+plink -pw Faba8888 root@fabidemoclouddevel.sq.fabasoft.com "bash /code/mcp/docker_start_script.sh"
+----------------------
+cd /code/mcp
+docker stop fabi-mcp
+docker rm fabi-mcp
+docker rmi fabi-mcp
+docker build -t "fabi-mcp" .
+docker run -d -p 8001:8001 --name fabi-mcp fabi-mcp
+docker logs fabi-mcp --follow

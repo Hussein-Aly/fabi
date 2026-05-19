@@ -1,0 +1,429 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "What is the main content of this document?",
+          "type": "text"
+        },
+        {
+          "text": "-----BEGIN FILE id=\"ef2d9a\" type=\"text/plain\"-----\nAsia is the largest and most diverse continent on Earth, stretching from the snowy mountains of Siberia to the tropical islands of Southeast Asia. It is home to ancient civilizations, modern megacities, thousands of languages, and countless cultural traditions. In one part of Asia, you can find peaceful temples surrounded by cherry blossoms, while in another, futuristic skylines glow with neon lights late into the night.\n-----END FILE id=\"ef2d9a\"-----",
+          "type": "text"
+        }
+      ]
+    }
+  ],
+  "model": "mistral-llm",
+  "stream": false,
+  "tool_choice": "auto",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "list_holidays",
+        "description": "List all available holiday packages, optionally filtered by destination keyword.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "destination_filter": {
+              "default": "",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_holiday_details",
+        "description": "Get detailed information about a specific holiday package by its ID.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "holiday_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "holiday_id"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "book_holiday",
+        "description": "Book a holiday package.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "holiday_id": {
+              "type": "string",
+              "description": "The ID of the holiday to book (e.g. H001)."
+            },
+            "traveller_name": {
+              "type": "string",
+              "description": "Full name of the lead traveller."
+            },
+            "start_date": {
+              "type": "string",
+              "description": "Desired start date in YYYY-MM-DD format."
+            },
+            "num_travellers": {
+              "default": 1,
+              "type": "integer",
+              "description": "Number of travellers (default 1)."
+            }
+          },
+          "required": [
+            "holiday_id",
+            "traveller_name",
+            "start_date"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "list_bookings",
+        "description": "List all bookings, optionally filtered by traveller name.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "traveller_name": {
+              "default": "",
+              "type": "string",
+              "description": "Filter bookings by lead traveller name (case-insensitive, partial match)."
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "cancel_booking",
+        "description": "Cancel an existing booking by its booking ID.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "booking_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "booking_id"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "send_email",
+        "description": "Send an email.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "to": {
+              "type": "string",
+              "description": "Recipient email address"
+            },
+            "subject": {
+              "type": "string",
+              "description": "Email subject line"
+            },
+            "body": {
+              "type": "string",
+              "description": "Email body content"
+            },
+            "from_email": {
+              "default": "user@example.com",
+              "type": "string",
+              "description": "Sender email address (defaults to user@example.com)"
+            }
+          },
+          "required": [
+            "to",
+            "subject",
+            "body"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "view_emails",
+        "description": "View emails with optional filters.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "sender": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by sender email address (case-insensitive, partial match)"
+            },
+            "subject_filter": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by subject line (case-insensitive, partial match)"
+            },
+            "unread_only": {
+              "default": false,
+              "type": "boolean",
+              "description": "Show only unread emails"
+            },
+            "limit": {
+              "default": 10,
+              "type": "integer",
+              "description": "Maximum number of emails to return (default 10)"
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "create_calendar_event",
+        "description": "Create a calendar event.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Event title"
+            },
+            "start_time": {
+              "type": "string",
+              "description": "Start time in ISO format (e.g., \"2026-04-25T10:00:00\")"
+            },
+            "end_time": {
+              "type": "string",
+              "description": "End time in ISO format (e.g., \"2026-04-25T11:00:00\")"
+            },
+            "description": {
+              "default": "",
+              "type": "string",
+              "description": "Event description (optional)"
+            },
+            "location": {
+              "default": "",
+              "type": "string",
+              "description": "Event location (optional)"
+            },
+            "attendees": {
+              "default": "",
+              "type": "string",
+              "description": "Comma-separated list of attendee emails (optional)"
+            }
+          },
+          "required": [
+            "title",
+            "start_time",
+            "end_time"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "view_calendar_events",
+        "description": "View calendar events with optional filters.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "start_date": {
+              "default": "",
+              "type": "string",
+              "description": "Show events after this date (ISO format, e.g., \"2026-04-25\")"
+            },
+            "end_date": {
+              "default": "",
+              "type": "string",
+              "description": "Show events before this date (ISO format, e.g., \"2026-04-30\")"
+            },
+            "title_filter": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by event title (case-insensitive, partial match)"
+            },
+            "location_filter": {
+              "default": "",
+              "type": "string",
+              "description": "Filter by location (case-insensitive, partial match)"
+            }
+          },
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "propose_create_vacation_days",
+        "description": "Propose vacation days for the user to review and confirm.\nDoes NOT create the entry — just shows an action card.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Title for the vacation entry (e.g. \"Summer Vacation\")"
+            },
+            "start_date": {
+              "type": "string",
+              "description": "First day of vacation in ISO format (e.g. \"2026-05-05\")"
+            },
+            "end_date": {
+              "type": "string",
+              "description": "Last day of vacation in ISO format (e.g. \"2026-05-09\")"
+            },
+            "description": {
+              "default": "",
+              "type": "string",
+              "description": "Optional reason or notes"
+            },
+            "half_day": {
+              "default": false,
+              "type": "boolean",
+              "description": "Whether this is a half-day request"
+            },
+            "half_day_period": {
+              "default": "",
+              "type": "string",
+              "description": "If half_day is True, specify \"morning\" or \"afternoon\""
+            }
+          },
+          "required": [
+            "title",
+            "start_date",
+            "end_date"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "propose_create_homeoffice",
+        "description": "Propose a home office day for the user to review and confirm.\nDoes NOT create the entry — just shows an action card.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "date": {
+              "type": "string",
+              "description": "The home office date in ISO format (e.g. \"2026-05-05\")"
+            },
+            "recurring": {
+              "default": false,
+              "type": "boolean",
+              "description": "Whether this should repeat weekly"
+            },
+            "recurrence_pattern": {
+              "default": "",
+              "type": "string",
+              "description": "If recurring, the pattern (e.g. \"every_monday\", \"every_wednesday\")"
+            },
+            "description": {
+              "default": "",
+              "type": "string",
+              "description": "Optional notes (e.g. \"Expecting a delivery\")"
+            }
+          },
+          "required": [
+            "date"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "propose_create_sick_leave",
+        "description": "Propose a sick leave entry for the user to review and confirm.\nDoes NOT create the entry — just shows an action card.",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "start_date": {
+              "type": "string",
+              "description": "First day of sick leave in ISO format (e.g. \"2026-05-05\")"
+            },
+            "end_date": {
+              "type": "string",
+              "description": "Last day of sick leave in ISO format (e.g. \"2026-05-07\")"
+            },
+            "has_doctors_note": {
+              "default": false,
+              "type": "boolean",
+              "description": "Whether a doctor's note has been provided"
+            },
+            "doctors_note_date": {
+              "default": "",
+              "type": "string",
+              "description": "Date on the doctor's note, if available"
+            },
+            "description": {
+              "default": "",
+              "type": "string",
+              "description": "Optional notes"
+            }
+          },
+          "required": [
+            "start_date",
+            "end_date"
+          ],
+          "type": "object"
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "propose_create_scrum_story",
+        "description": "Propose a scrum story for the user to review and confirm.\nDoes NOT create the entry — just shows an action card.\nArgs:\n    name: Title of the scrum story\n    description: Detailed description of the story\n    acceptance_criteria: Conditions that must be met for the story to be considered done\n    story_points: Estimated effort/complexity (e.g. 1, 2, 3, 5, 8, 13)",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "default": "",
+              "type": "string"
+            },
+            "acceptance_criteria": {
+              "default": "",
+              "type": "string"
+            },
+            "story_points": {
+              "default": 3,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        }
+      }
+    }
+  ]
+}

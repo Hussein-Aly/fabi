@@ -1,0 +1,15 @@
+build
+*swagger_ui_bundle.js
+tmp
+.env
+*.env*
+.idea/
+__pycache__
+.idea/
+*.profile
+*.egg-info
+almalinux.repo
+/.coverage
+/src/mbai/aiserver/fabi/static/*.css
+/src/mbai/aiserver/fabi/static/*.js
+.venv

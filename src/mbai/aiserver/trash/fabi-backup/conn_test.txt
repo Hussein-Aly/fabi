@@ -1,0 +1,16 @@
+import requests
+
+
+def check_mcp_connection(url: str, timeout: int = 5) -> bool:
+    """Check if MCP server is reachable."""
+    try:
+        response = requests.get(url, timeout=timeout)
+        return "id" in response.json() and "error" in response.json()
+
+    except Exception as e:
+        print(e)
+        return False
+
+
+url = "http://localhost:8001/mcp"
+print(check_mcp_connection(url))

@@ -1,0 +1,215 @@
+
+@app.get("/")
+def index() -> FileResponse:
+    return FileResponse((THIS_DIR_FABI / "chat_app.html"), media_type="text/html")
+
+
+@app.get("/chat_app.ts")
+def main_ts() -> FileResponse:
+    return FileResponse(
+        (THIS_DIR_FABI / "chat_app.ts"),
+    )  # media_type="text/plain")
+
+
+@app.get("/bootstrap.min.css")
+def main_bootstr() -> FileResponse:
+    return FileResponse(
+        (THIS_DIR_FABI / "static/bootstrap.min.css"),
+    )  # media_type="text/plain")
+
+
+@app.get("/marked.esm.js")
+def main_marked() -> FileResponse:
+    return FileResponse((THIS_DIR_FABI / "static/marked.esm.js"))
+
+
+@app.get("/typescript.min.js")
+def main_typesc() -> FileResponse:
+    return FileResponse(
+        (THIS_DIR_FABI / "static/typescript.min.js"),
+    )
+
+
+class ChatMessage(TypedDict):
+    """Format of messages sent to the browser."""
+
+    role: Literal["user", "model"]
+    timestamp: str
+    content: str
+
+
+def to_chat_message(m: ModelMessage) -> ChatMessage:
+    first_part = m.parts[0]
+    if isinstance(m, ModelRequest):
+        if isinstance(first_part, UserPromptPart):
+            assert isinstance(first_part.content, str)
+            return {
+                "role": "user",
+                "timestamp": first_part.timestamp.isoformat(),
+                "content": first_part.content,
+            }
+    elif isinstance(m, ModelResponse):
+        if isinstance(first_part, TextPart):
+            return {
+                "role": "assistent",
+                "timestamp": m.timestamp.isoformat(),
+                "content": first_part.content,
+            }
+    raise UnexpectedModelBehavior(f"Unexpected message type for chat app: {m}")
+
+
+@app.get("/chat/")
+async def get_chat() -> Response:
+    return Response(
+        b"\n".join(json.dumps(to_chat_message(m)).encode("utf-8") for m in []),
+        media_type="text/plain",
+    )
+
+
+def get_system_prompt_date() -> str:
+    """Generate dynamic date and time string for system prompt."""
+    now = datetime.now()
+    return f"The current date and time is {now.strftime('%A, %B %d, %Y at %I:%M:%S %p')}."
+
+
+class FabiMessage(BaseModel):
+    role: str
+    type: str = "text"
+    timestamp: str = Field(default_factory=lambda: datetime.now(tz=timezone.utc).isoformat())
+    content: str | dict | list | Any
+
+    def to_stream_msg(self):
+        return self.model_dump_json().encode("utf-8") + b"\n"
+
+
+class ChatRequest(BaseModel):
+    prompt: str
+    message_history: list = Field(default_factory=list)
+    history_filename: Optional[str] = Field(default=None, description="only for server-side storing for ui prototype")
+
+
+@app.post("/chat/")
+async def route_agent_stream(
+    body: ChatRequest,
+    use_server_side_history: bool = False,
+    delta: bool = True,
+) -> StreamingResponse:
+    async def stream_messages():
+
+        # user prompt gets directly streamed
+        yield FabiMessage(role="user", content=body.prompt).to_stream_msg()
+
+        # --- Your custom endpoint config ---
+        model, llm_url, model_name, _ = get_llm_model()
+        mcp_server, mcp_url = get_mcp_via_http_streamable()
+
+        # --- Dependencies (injected at runtime, great for DB connections, config, etc.) ---
+        @dataclass
+        class Deps:
+            user_name: str
+
+        yield FabiMessage(role="info", content=f"mcp={mcp_url}, model={model_name}").to_stream_msg()
+
+        # --- Agent ---
+        agent = Agent(
+            model=model,
+            deps_type=Deps,
+            toolsets=[mcp_server],
+            system_prompt="Your name is Fabi, the Assistant of the Fabasoft Company based in Linz, Austria"
+            f"\n\n ## Infos \n\n {get_system_prompt_date()}",
+        )
+
+        # --- user input -------------------------------------------------------------------------------
+        deps = Deps(user_name="Fabio")
+
+        # ----------------------------------------------------------------------------------------------
+        # messages = []  # set history
+
+        # messages = await database.get_messages()
+        # yield FabiMessage(role="info", content=f"loaded {len(messages)} messages from the database").to_stream_msg()
+
+        if use_server_side_history:
+            file_name_current = f"{body.history_filename}x.json"
+
+            filepath = THIS_DIR_FABI / f"log/{file_name_current}"
+
+            if Path(filepath).exists():
+                with open(THIS_DIR_FABI / f"log/{file_name_current}") as f:
+                    messages = ModelMessagesTypeAdapter.validate_python(json.load(f))
+            else:
+                messages = []
+
+            yield FabiMessage(
+                role="info",
+                content=f"using server-side json storage {file_name_current}, loaded {len(messages)} messages from the jsonfile",
+            ).to_stream_msg()
+        else:
+            messages = ModelMessagesTypeAdapter.validate_python(body.message_history)
+            print("no history found")
+
+            yield FabiMessage(
+                role="info",
+                content=f"got post-req-field 'message-history', loaded {len(messages)} messages from the post-request",
+            ).to_stream_msg()
+
+        use_stream_text = True
+        async with agent.run_stream(body.prompt, message_history=messages, deps=deps) as result:
+            if use_stream_text:
+                for message in result.new_messages():
+                    for call in message.parts:
+                        if isinstance(call, ToolCallPart):
+                            call_args = call.args_as_json_str()
+                            tool_call_id = call.tool_call_id or "no id"
+                            yield FabiMessage(
+                                role="tool",
+                                content=f"️🛠️ "
+                                f"**Tool-call: {call.tool_name} (id={tool_call_id})** - Parameters: " + call_args,
+                            ).to_stream_msg()
+
+                        elif isinstance(call, ToolReturnPart):
+                            print(call)
+                            tool_call_id = call.tool_call_id or "no id"
+
+                            yield FabiMessage(
+                                role="tool",
+                                content=f"️🛠️ **Tool-Return: {call.tool_name} (id={tool_call_id})** - content: "
+                                + call.content,
+                            ).to_stream_msg()
+                        else:
+
+                            # there is also UserPromptPart,BuiltinToolReturnPart,RetryPromptPart
+                            print("unhandled type: ", type(call))
+
+                text_ts = datetime.now(tz=timezone.utc).isoformat()
+
+                async for text in result.stream_text(delta=delta, debounce_by=None):
+                    # print(text, "##")
+                    yield FabiMessage(role="assistant", timestamp=text_ts, content=text).to_stream_msg()
+
+        log_dir = THIS_DIR_FABI / "log"
+        file_name = f"msg-history-{int(time.time())}.json"
+
+        yield FabiMessage(
+            role="info",
+            content=f"finished, save new messages and stored ALL messages in log-file: [/log/{file_name}](/log/{file_name})",
+        ).to_stream_msg()
+
+        # just log
+        with open(log_dir / file_name, "wb") as f:
+            f.write(result.all_messages_json())
+
+        if use_server_side_history:
+            with open(log_dir / file_name_current, "wb") as f:
+                f.write(result.all_messages_json())
+            yield FabiMessage(
+                role="info",
+                content=f"also stored in history file: {file_name_current}",
+            ).to_stream_msg()
+        else:
+            new_messages = result.new_messages_json()
+            yield FabiMessage(
+                role="message_history", type="json", content=json.loads(new_messages.decode("utf-8"))
+            ).to_stream_msg()
+
+    return StreamingResponse(stream_messages(), media_type="text/plain")
+

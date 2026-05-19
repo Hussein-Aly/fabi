@@ -1,0 +1,104 @@
+[
+  {
+    "parts": [
+      {
+        "content": "book me a holiday to Agentina",
+        "timestamp": "2026-04-22T14:46:19.651744Z",
+        "part_kind": "user-prompt"
+      }
+    ],
+    "timestamp": "2026-04-22T14:46:19.652186Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019db5a8-0091-740b-8007-9017224c0830",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "list_holidays",
+        "args": "{\"destination_filter\": \"Argentina\"}",
+        "tool_call_id": "8mBHAMFQq",
+        "id": null,
+        "provider_name": null,
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 464,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 0,
+      "output_tokens": 15,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "details": {}
+    },
+    "model_name": "mistral-llm",
+    "timestamp": "2026-04-22T14:46:20.493110Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://frontend-mb-oblivation-development.apps.openshift.sq.fabasoft.com/search/api/openai.v1.chat.completions.create/v1/",
+    "provider_details": {
+      "finish_reason": "tool_calls",
+      "timestamp": "2026-04-22T14:46:20Z"
+    },
+    "provider_response_id": "chatcmpl-89982af062dc19b2",
+    "finish_reason": "tool_call",
+    "run_id": "019db5a8-0091-740b-8007-9017224c0830",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "list_holidays",
+        "content": "[\n  {\n    \"id\": \"H005\",\n    \"destination\": \"Patagonia, Argentina\",\n    \"duration_days\": 12,\n    \"price_usd\": 4000,\n    \"available_from\": \"2026-11-01\",\n    \"available_to\": \"2027-03-31\"\n  }\n]",
+        "tool_call_id": "8mBHAMFQq",
+        "metadata": null,
+        "timestamp": "2026-04-22T14:46:20.550466Z",
+        "outcome": "success",
+        "part_kind": "tool-return"
+      }
+    ],
+    "timestamp": "2026-04-22T14:46:20.551087Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019db5a8-0091-740b-8007-9017224c0830",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "content": "I found a holiday package in Patagonia, Argentina. It's a 12-day trip for $4000 per person. Would you like to book this?",
+        "id": null,
+        "provider_name": null,
+        "provider_details": null,
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 571,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 0,
+      "output_tokens": 37,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "details": {}
+    },
+    "model_name": "mistral-llm",
+    "timestamp": "2026-04-22T14:46:21.076095Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://frontend-mb-oblivation-development.apps.openshift.sq.fabasoft.com/search/api/openai.v1.chat.completions.create/v1/",
+    "provider_details": {
+      "finish_reason": "stop",
+      "timestamp": "2026-04-22T14:46:20Z"
+    },
+    "provider_response_id": "chatcmpl-a77c022500e788df",
+    "finish_reason": "stop",
+    "run_id": "019db5a8-0091-740b-8007-9017224c0830",
+    "metadata": null
+  }
+]

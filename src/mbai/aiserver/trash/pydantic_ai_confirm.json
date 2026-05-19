@@ -1,0 +1,58 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Your name is Johnny, the Assistant of the XY Company \n\n ## Infos \n\n The current date and time is Tuesday, May 05, 2026 at 12:45:31 PM.",
+        "timestamp": "2026-05-05T10:45:31.600366Z",
+        "dynamic_ref": null,
+        "part_kind": "system-prompt"
+      },
+      {
+        "content": "send an email to john@fabasoft.com, whats up?",
+        "timestamp": "2026-05-05T10:45:31.573228Z",
+        "part_kind": "user-prompt"
+      }
+    ],
+    "timestamp": "2026-05-05T10:45:31.590202Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019df7be-373b-76f4-ab1d-efffaa228b49",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "send_email",
+        "args": "{\"to\": \"john@fabasoft.com\", \"subject\": \"Whats up?\", \"body\": \"Hey John, what's up? Let's catch up soon! Cheers, Johnny\"}",
+        "tool_call_id": "jGxINJEzh",
+        "id": null,
+        "provider_name": null,
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1964,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 0,
+      "output_tokens": 46,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "details": {}
+    },
+    "model_name": "mistral-llm",
+    "timestamp": "2026-05-05T10:45:32.992816Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://frontend-mb-oblivation-development.apps.openshift.sq.fabasoft.com/search/api/openai.v1.chat.completions.create/v1/",
+    "provider_details": {
+      "timestamp": "2026-05-05T10:45:32Z",
+      "finish_reason": "tool_calls"
+    },
+    "provider_response_id": "chatcmpl-93c79c34e4598ef8",
+    "finish_reason": "tool_call",
+    "run_id": "019df7be-373b-76f4-ab1d-efffaa228b49",
+    "metadata": null
+  }
+]

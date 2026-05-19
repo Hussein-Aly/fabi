@@ -1,0 +1,35 @@
+[project]
+name = "fabimcp"
+version = "0.0.0.2" # does not matter
+description = "mcp"
+authors = [
+    {name = "Fabio Rutter", email = "fabio.rutter@fabasoft.com"},
+]
+requires-python = ">=3.12" # change if anyone needs an older version (not tested)
+dependencies=[
+    "fastmcp"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest==9.0.2",
+    "pytest-cov==7.0.0",
+    "pytest-mock==3.15.1",
+    "pytest-env==1.6.0",
+    "flake8==7.3.0",
+    "pytest-asyncio==1.3.0",
+    "click==8.3.1",
+    "locust==2.43.3",
+    "polyfactory==3.3.0"
+]
+
+[tool.coverage.run]
+omit = ["*/tests/*"]
+
+[tool.pytest.ini_options]
+addopts = "--disable-warnings -q"
+pythonpath = [
+    "."
+]
+
+

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "51533518-3f7b-4a7f-bba3-e5f4ccf18fa0",
+    "role": "user",
+    "content": "list holidays"
+  },
+  {
+    "id": "e0c95e87-22ff-46c5-b716-82a2abe599ac",
+    "role": "assistant",
+    "toolCalls": [
+      {
+        "id": "h46ISXaFW",
+        "type": "function",
+        "function": {
+          "name": "list_holidays",
+          "arguments": "{}"
+        }
+      }
+    ]
+  },
+  {
+    "id": "02e19180-ac52-4b97-8b3a-fadd2bb18dfd",
+    "role": "tool",
+    "content": "[\n  {\n    \"id\": \"H001\",\n    \"destination\": \"Maldives\",\n    \"duration_days\": 7,\n    \"price_usd\": 2500,\n    \"available_from\": \"2026-05-01\",\n    \"available_to\": \"2026-09-30\"\n  },\n  {\n    \"id\": \"H002\",\n    \"destination\": \"Bali, Indonesia\",\n    \"duration_days\": 10,\n    \"price_usd\": 1800,\n    \"available_from\": \"2026-04-01\",\n    \"available_to\": \"2026-12-31\"\n  },\n  {\n    \"id\": \"H003\",\n    \"destination\": \"Santorini, Greece\",\n    \"duration_days\": 5,\n    \"price_usd\": 3200,\n    \"available_from\": \"2026-06-01\",\n    \"available_to\": \"2026-10-15\"\n  },\n  {\n    \"id\": \"H004\",\n    \"destination\": \"Kyoto, Japan\",\n    \"duration_days\": 8,\n    \"price_usd\": 2100,\n    \"available_from\": \"2026-03-15\",\n    \"available_to\": \"2026-11-30\"\n  },\n  {\n    \"id\": \"H005\",\n    \"destination\": \"Patagonia, Argentina\",\n    \"duration_days\": 12,\n    \"price_usd\": 4000,\n    \"available_from\": \"2026-11-01\",\n    \"available_to\": \"2027-03-31\"\n  }\n]",
+    "toolCallId": "h46ISXaFW"
+  },
+  {
+    "id": "da37314e-4f6a-4e6c-add1-241fbe9b8e59",
+    "role": "assistant",
+    "content": "Here are some holiday packages we offer:\n\n| ID     | Destination          | Duration (days) | Price (USD) | Available From | Available To   |\n|--------|----------------------|-----------------|-------------|----------------|----------------|\n| H001   | Maldives             | 7               | 2500        | 2026-05-01     | 2026-09-30     |\n| H002   | Bali, Indonesia      | 10              | 1800        | 2026-04-01     | 2026-12-31     |\n| H003   | Santorini, Greece    | 5               | 3200        | 2026-06-01     | 2026-10-15     |\n| H004   | Kyoto, Japan         | 8               | 2100        | 2026-03-15     | 2026-11-30     |\n| H005   | Patagonia, Argentina | 12              | 4000        | 2026-11-01     | 2027-03-31     |"
+  }
+]

@@ -1,0 +1,249 @@
+# ==========================================================================
+# Copyright (c) Fabasoft R&D GmbH, A-4020 Linz, 1988-2026.
+#
+# Alle Rechte vorbehalten. Alle verwendeten Hard- und Softwarenamen sind
+# Handelsnamen und/oder Marken der jeweiligen Hersteller.
+#
+# Der Nutzer des Computerprogramms anerkennt, dass der oben stehende
+# Copyright-Vermerk im Sinn des Welturheberrechtsabkommens an der vom
+# Urheber festgelegten Stelle in der Funktion des Computerprogramms
+# angebracht bleibt, um den Vorbehalt des Urheberrechtes genuegend zum
+# Ausdruck zu bringen. Dieser Urheberrechtsvermerk darf weder vom Kunden,
+# Nutzer und/oder von Dritten entfernt, veraendert oder disloziert werden.
+# ==========================================================================
+import logging
+from typing import Optional
+from urllib.request import Request
+
+import mbai.base.config
+from mbai.base.exceptions import CustomException
+from pydantic import BaseModel
+
+mbai.base.config.PRINT_FULL_STACKTRACE = False
+mbai.base.config.RETURN_FULL_STACKTRACE_ON_EXCEPTION = True
+import uvicorn
+from fastapi import FastAPI, Depends, APIRouter, Path, Body
+from mbai.base.base_ai_controller import BaseAIController
+from mbai.base.model import MBConnectionValues
+from mbai.base.retrieval_processing.search_post_processing import reduce_verbosity_snippet_list
+from starlette.responses import JSONResponse
+
+from mbai.aiserver.api_model import (
+    VectorSearchParams,
+    ResponseOptions,
+    LLMCallParams,
+    MBConnectionAPIParams,
+)
+from mbai.aiserver.api_server_auth import jwt_required
+from mbai.aiserver.config import settings, build_mb_connection_values
+
+from mbai.aiserver.utils.general_utils import get_current_utc_ts_iso_z
+
+if settings.test_routes_enabled:
+    from mbai.aiserver.checks.connection_checks import execute_connection_tests, ConnectionTestRequestBody
+app = FastAPI(
+    title=settings.fast_api_app_title,
+    description=settings.fast_api_app_description,
+    docs_url=None,
+    redoc_url=None,
+    openapi_url="/openapi.json" if settings.fast_api_docs_enabled else None,
+    swagger_ui_oauth2_redirect_url=None,
+)
+
+
+logger = logging.getLogger(__name__)
+
+if settings.fast_api_docs_enabled:
+    logger.info("api docs enabled: load swagger_ui")
+    from fastapi_swagger import patch_fastapi
+
+    patch_fastapi(app, redirect_from_root_to_docs=False)
+else:
+    logger.info("api docs are disabled")
+v1_router = APIRouter(prefix="/api/v1", dependencies=[Depends(jwt_required)] if settings.jwt_enabled else [])
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """catches all exceptions before response"""
+    custom_exc_msg: str = CustomException.from_exception(exc).get_msg()
+    logger.error(custom_exc_msg)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal Server Error", "message": custom_exc_msg},
+    )
+
+
+# -------------------------------------------------------
+# Section: default routes
+# -------------------------------------------------------
+
+
+@app.get("/")
+def route_root() -> dict:
+    return {
+        "message": "Hello World",
+        "useful_routes": {
+            "/docs": "swagger docs",
+            "/openapi.json": "more detailed documentation",
+        },
+    }
+
+
+@app.get("/health-check", summary="Health Check")
+def route_health_check() -> dict:
+    return {
+        "status": "ok",
+        "timestamp": get_current_utc_ts_iso_z(),
+        "setting_print_full_stacktrace": mbai.base.config.PRINT_FULL_STACKTRACE,
+    }
+
+
+# -------------------------------------------------------
+# Section: Base AI Functions
+# -------------------------------------------------------
+
+base_ai_router = APIRouter(prefix="/base", tags=["Base AI Routes"], dependencies=[])
+
+
+@base_ai_router.post("/vector-search")
+def route_vector_search(
+    mb_connection_params: MBConnectionAPIParams,
+    vs_params: VectorSearchParams,
+    response_options: ResponseOptions = ResponseOptions(),
+):
+    mb_connection_values = build_mb_connection_values(mb_connection_params)
+    bc = BaseAIController(mb_connection_values)
+
+    ctlr_response = bc.vector_search(
+        queries=vs_params.queries,
+        k=vs_params.k,
+        minscore=vs_params.minscore,
+        resolve_overlaps=vs_params.resolve_overlaps,
+        constraint=vs_params.constraint,
+        additional_properties=vs_params.additional_properties,
+        raise_on_error=True,
+    )
+
+    if response_options.verbosity == "minimal":
+        ctlr_response = ctlr_response.to_minimal()
+        ctlr_response.output = reduce_verbosity_snippet_list(ctlr_response.output)
+
+    return ctlr_response
+
+
+@base_ai_router.post("/llm_call_via_post")
+def route_llm_call_via_post(
+    llm_call_params: LLMCallParams,
+    mb_connection_params: Optional[MBConnectionAPIParams] = None,
+    response_options: ResponseOptions = ResponseOptions(),
+):
+    """post request for LLM directly, you can provide a inspire frontend url in llm_all_params.llm_url,
+    but then you also need the mb_connection_params"""
+    if llm_call_params.is_frontend_url() and not mb_connection_params:
+        raise ValueError("if llm_url is a inspire frontend_url, you need to add mb_connection_params")
+
+    if mb_connection_params:
+        mb_connection_values = build_mb_connection_values(mb_connection_params)
+    else:
+        mb_connection_values = MBConnectionValues()
+
+    bc = BaseAIController(mb_connection_values)
+
+    ctlr_response = bc.llm_call_via_post_request(
+        user_prompt=llm_call_params.user_prompt,
+        model_json_schema=llm_call_params.response_json_schema,
+        images=llm_call_params.images,
+        llm_url=llm_call_params.llm_url,
+        system_prompt=llm_call_params.system_prompt,
+        model=llm_call_params.model,
+        raise_on_error=True ** llm_call_params.get_additional_params(),
+    )
+
+    if response_options.verbosity == "minimal":
+        ctlr_response = ctlr_response.to_minimal()
+
+    return ctlr_response
+
+
+# -------------------------------------------------------
+# Section: Testing
+# -------------------------------------------------------
+
+if settings.test_routes_enabled:
+    test_router = APIRouter(prefix="/tests", tags=["Test Routes"])
+
+    @test_router.post("/jwt")
+    def route_jwt_test(jwt_data: dict = Depends(jwt_required)):
+        """this route tests the jwt token validation"""
+        return {"jwt_test": True, "jwt_data": jwt_data}
+
+    @test_router.get("/error_handling")
+    def route_jwt_test():
+        """this route error handling"""
+        a = 1 + "2"
+
+        return {"error_test": True}
+
+    @test_router.post("/connections")
+    def route_connections_test(connection_test_body: ConnectionTestRequestBody):
+        """this route is for testing api calls (mainly for clone)"""
+
+        mb_connection_values = build_mb_connection_values(connection_test_body.mb_connection_params)
+        return execute_connection_tests(
+            mb_connection_values,
+            connection_test_body.llm_url,
+            connection_test_body.llm_model_id,
+            connection_test_body.max_response_len,
+        )
+
+
+# -------------------------------------------------------
+# Section: #TODO: Your New Routes
+# -------------------------------------------------------
+
+example_router = APIRouter(prefix="/example", tags=["Example Routes"])
+
+
+# suggestion: this class would be in api_model.py or in another model file
+class ExamplePersonData(BaseModel):
+    age: int
+    city: str
+
+
+@example_router.get("/get_person_infos/{name}")
+def get_person_infos(name: str = Path(..., description="this is the name (e.g. 'john' or anne)")) -> ExamplePersonData:
+    """Get example data"""
+
+    # .. do something with 'key'
+
+    data = dict(john=ExamplePersonData(age=20, city="Vienna"), anne=ExamplePersonData(age=21, city="Linz"))
+    return data[name.lower()]
+
+
+@example_router.post("/set_infos/{name}")
+def add_person_info(
+    name: str = Path(..., description="this is the name (not 'john' or anne)"),
+    person_data: ExamplePersonData = Body(..., description="this is the person data"),  # auto Validation for this class
+) -> dict:
+    """temporarily set example person data"""
+
+    data = dict(john=ExamplePersonData(age=20, city="Vienna"), anne=ExamplePersonData(age=21, city="Linz"))
+
+    if name.lower() not in data:
+        data[name.lower()] = person_data
+
+    return data
+
+
+# note: these routers need to be assigned in
+#  the correct order and after all the routes are defined
+v1_router.include_router(base_ai_router)
+v1_router.include_router(example_router)
+app.include_router(v1_router)
+
+if settings.test_routes_enabled:
+    app.include_router(test_router)
+
+if __name__ == "__main__":
+    uvicorn.run("mbai.aiserver.api_server:app", host="0.0.0.0", port=9000, reload=True)

@@ -1,0 +1,112 @@
+[
+  {
+    "parts": [
+      {
+        "content": "Your name is Johnny, the Assistant of the XY Company \n\n ## Infos \n\n The current date and time is Tuesday, May 05, 2026 at 12:47:54 PM.",
+        "timestamp": "2026-05-05T10:47:55.492435Z",
+        "dynamic_ref": null,
+        "part_kind": "system-prompt"
+      },
+      {
+        "content": "add calender entry for holiday tomoorrow whole day",
+        "timestamp": "2026-05-05T10:47:54.492953Z",
+        "part_kind": "user-prompt"
+      }
+    ],
+    "timestamp": "2026-05-05T10:47:54.508312Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019df7c0-6580-77ff-9ba8-2cebe98d2d46",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "create_calendar_event",
+        "args": "{\"title\": \"Holiday\", \"start_time\": \"2026-05-06T00:00:00\", \"end_time\": \"2026-05-06T23:59:59\"}",
+        "tool_call_id": "2oAsblPSp",
+        "id": null,
+        "provider_name": null,
+        "provider_details": null,
+        "part_kind": "tool-call"
+      }
+    ],
+    "usage": {
+      "input_tokens": 1959,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 0,
+      "output_tokens": 64,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "details": {}
+    },
+    "model_name": "mistral-llm",
+    "timestamp": "2026-05-05T10:47:55.452366Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://frontend-mb-oblivation-development.apps.openshift.sq.fabasoft.com/search/api/openai.v1.chat.completions.create/v1/",
+    "provider_details": {
+      "timestamp": "2026-05-05T10:47:54Z",
+      "finish_reason": "tool_calls"
+    },
+    "provider_response_id": "chatcmpl-aa81a2465b4a1411",
+    "finish_reason": "tool_call",
+    "run_id": "019df7c0-6580-77ff-9ba8-2cebe98d2d46",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "tool_name": "create_calendar_event",
+        "content": "{\n  \"status\": \"created\",\n  \"event\": {\n    \"id\": 5,\n    \"title\": \"Holiday\",\n    \"description\": \"\",\n    \"start_time\": \"2026-05-06T00:00:00\",\n    \"end_time\": \"2026-05-06T23:59:59\",\n    \"location\": \"\",\n    \"attendees\": []\n  }\n}",
+        "tool_call_id": "2oAsblPSp",
+        "metadata": null,
+        "timestamp": "2026-05-05T10:47:55.490694Z",
+        "outcome": "success",
+        "part_kind": "tool-return"
+      }
+    ],
+    "timestamp": "2026-05-05T10:47:55.492072Z",
+    "instructions": null,
+    "kind": "request",
+    "run_id": "019df7c0-6580-77ff-9ba8-2cebe98d2d46",
+    "metadata": null
+  },
+  {
+    "parts": [
+      {
+        "content": "Your holiday has been successfully added to your calendar for tomorrow, the whole day.",
+        "id": null,
+        "provider_name": null,
+        "provider_details": null,
+        "part_kind": "text"
+      }
+    ],
+    "usage": {
+      "input_tokens": 2126,
+      "cache_write_tokens": 0,
+      "cache_read_tokens": 0,
+      "output_tokens": 17,
+      "input_audio_tokens": 0,
+      "cache_audio_read_tokens": 0,
+      "output_audio_tokens": 0,
+      "details": {
+        "reasoning_tokens": 0
+      }
+    },
+    "model_name": "mistral-llm",
+    "timestamp": "2026-05-05T10:47:55.823179Z",
+    "kind": "response",
+    "provider_name": "openai",
+    "provider_url": "https://frontend-mb-oblivation-development.apps.openshift.sq.fabasoft.com/search/api/openai.v1.chat.completions.create/v1/",
+    "provider_details": {
+      "timestamp": "2026-05-05T10:47:55Z",
+      "finish_reason": "stop"
+    },
+    "provider_response_id": "chatcmpl-9025fd81147dcd63",
+    "finish_reason": "stop",
+    "run_id": "019df7c0-6580-77ff-9ba8-2cebe98d2d46",
+    "metadata": null
+  }
+]

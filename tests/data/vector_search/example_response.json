@@ -1,0 +1,707 @@
+{
+  "searchRequest": {
+    "query": {
+      "unparsed": "content:~[minscore:0.2]\"what is water?\" timeout:100"
+    },
+    "constraint": {
+      "unparsed": "mes:uniformdocid:46"
+    },
+    "count": "10",
+    "properties": [
+      {
+        "name": "title",
+        "formats": [
+          "VALUE"
+        ]
+      },
+      {
+        "name": "content",
+        "formats": [
+          "VALUE"
+        ]
+      },
+      {
+        "name": "mes:key",
+        "formats": [
+          "VALUE"
+        ]
+      },
+      {
+        "name": "extension",
+        "formats": [
+          "VALUE"
+        ]
+      }
+    ],
+    "userContext": {},
+    "answerCount": 3,
+    "answerFormat": "FORMATTED_ANSWERS"
+  },
+  "alternatives": [
+    {
+      "id": "user_query",
+      "name": "user_query",
+      "entries": [
+        {
+          "html": "content:~[minscore:0.2]&quot;what is water?&quot; timeout:100",
+          "count": "1",
+          "queryExpr": {
+            "unparsed": "content:~[minscore:0.2]\"what is water?\" timeout:100"
+          }
+        }
+      ]
+    }
+  ],
+  "name": "unnamed",
+  "estimatedCount": "1",
+  "orderby": "mes:relevance",
+  "orderable": [
+    {
+      "name": "mes:relevance",
+      "localizedName": "Relevance"
+    },
+    {
+      "name": "mes:date",
+      "localizedName": "Date"
+    },
+    {
+      "name": "mes:size",
+      "localizedName": "Size"
+    },
+    {
+      "name": "addrcity",
+      "localizedName": "City"
+    },
+    {
+      "name": "addrcountry",
+      "localizedName": "Country"
+    },
+    {
+      "name": "extension",
+      "localizedName": "File type"
+    },
+    {
+      "name": "organization",
+      "localizedName": "Organization"
+    },
+    {
+      "name": "addrstate",
+      "localizedName": "State"
+    },
+    {
+      "name": "objteamroom",
+      "localizedName": "Team Room"
+    }
+  ],
+  "availableProperties": [
+    {
+      "name": "Content-Encoding",
+      "localizedName": "Content-Encoding"
+    },
+    {
+      "name": "Content-Type",
+      "localizedName": "Content-Type"
+    },
+    {
+      "name": "amount_of_snippets",
+      "localizedName": "amount_of_snippets"
+    },
+    {
+      "name": "chunking_settings",
+      "localizedName": "chunking_settings"
+    },
+    {
+      "name": "chunking_settings_fingerprint",
+      "localizedName": "chunking_settings_fingerprint"
+    },
+    {
+      "name": "chunking_timestamp",
+      "localizedName": "chunking_timestamp"
+    },
+    {
+      "name": "contentcrc64",
+      "localizedName": "contentcrc64"
+    },
+    {
+      "name": "contentmediatype",
+      "localizedName": "contentmediatype"
+    },
+    {
+      "name": "data_dir",
+      "localizedName": "data_dir"
+    },
+    {
+      "name": "data_dir_fingerprint",
+      "localizedName": "data_dir_fingerprint"
+    },
+    {
+      "name": "datasource/category",
+      "localizedName": "Datasource Category"
+    },
+    {
+      "name": "datasource/categoryinstance",
+      "localizedName": "Datasource Category Instance"
+    },
+    {
+      "name": "datasource/fqcategory",
+      "localizedName": "Datasource Category and Instance"
+    },
+    {
+      "name": "datasource/mes:key",
+      "localizedName": "Datasource Key"
+    },
+    {
+      "name": "datasource/mes:numericdate",
+      "localizedName": "datasource/mes:numericdate"
+    },
+    {
+      "name": "datasource/modificationDate",
+      "localizedName": "datasource/modificationDate"
+    },
+    {
+      "name": "document:ContentEncoding",
+      "localizedName": "document:ContentEncoding"
+    },
+    {
+      "name": "document:ContentType",
+      "localizedName": "document:ContentType"
+    },
+    {
+      "name": "extension",
+      "localizedName": "Extension",
+      "category": "general",
+      "localizedCategory": "General"
+    },
+    {
+      "name": "index:modificationdate",
+      "localizedName": "Indexed Modification Date"
+    },
+    {
+      "name": "mes:binarycontent_synthesized",
+      "localizedName": "mes:binarycontent_synthesized"
+    },
+    {
+      "name": "mes:contenthash",
+      "localizedName": "mes:contenthash"
+    },
+    {
+      "name": "mes:date",
+      "localizedName": "Date",
+      "category": "general",
+      "localizedCategory": "General"
+    },
+    {
+      "name": "mes:docid",
+      "localizedName": "mes:docid"
+    },
+    {
+      "name": "mes:hitinfo:positioncount",
+      "localizedName": "Hit Position Count",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:hitinfo:rank",
+      "localizedName": "Hit Rank",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:hitinfo:relevance:docboost",
+      "localizedName": "Hit Document Boost",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:lang",
+      "localizedName": "Language",
+      "category": "general",
+      "localizedCategory": "General"
+    },
+    {
+      "name": "mes:order",
+      "localizedName": "Order",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:size",
+      "localizedName": "Size"
+    },
+    {
+      "name": "mes:thumbnailcontent_synthesized",
+      "localizedName": "mes:thumbnailcontent_synthesized"
+    },
+    {
+      "name": "mes:uniformdocid",
+      "localizedName": "Uniform Document ID"
+    },
+    {
+      "name": "metadatacrc64",
+      "localizedName": "metadatacrc64"
+    },
+    {
+      "name": "store:creationdate",
+      "localizedName": "Created in Index At",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "store:modificationdate",
+      "localizedName": "Modified in Index At",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "telemetry:requestid",
+      "localizedName": "telemetry:requestid"
+    },
+    {
+      "name": "title",
+      "localizedName": "Name"
+    },
+    {
+      "name": "title",
+      "localizedName": "Name"
+    },
+    {
+      "name": "content",
+      "localizedName": "Content"
+    },
+    {
+      "name": "mes:key",
+      "localizedName": "Mindbreeze Key"
+    },
+    {
+      "name": "extension",
+      "localizedName": "Extension"
+    },
+    {
+      "name": "action_0",
+      "localizedName": "Default action"
+    }
+  ],
+  "availableFacets": [
+    {
+      "name": "datasource/category",
+      "localizedName": "Datasource Category"
+    },
+    {
+      "name": "datasource/fqcategory",
+      "localizedName": "Datasource Category and Instance"
+    },
+    {
+      "name": "datasource/mes:key",
+      "localizedName": "Datasource Key"
+    },
+    {
+      "name": "extension",
+      "localizedName": "Extension",
+      "category": "general",
+      "localizedCategory": "General"
+    },
+    {
+      "name": "mes:date",
+      "localizedName": "Date",
+      "category": "general",
+      "localizedCategory": "General"
+    },
+    {
+      "name": "mes:hitinfo:positioncount",
+      "localizedName": "Hit Position Count",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:hitinfo:rank",
+      "localizedName": "Hit Rank",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:hitinfo:relevance:docboost",
+      "localizedName": "Hit Document Boost",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:lang",
+      "localizedName": "Language",
+      "category": "general",
+      "localizedCategory": "General"
+    },
+    {
+      "name": "mes:order",
+      "localizedName": "Order",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "mes:size",
+      "localizedName": "Size"
+    },
+    {
+      "name": "mes:uniformdocid",
+      "localizedName": "Uniform Document ID"
+    },
+    {
+      "name": "store:creationdate",
+      "localizedName": "Created in Index At",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "store:modificationdate",
+      "localizedName": "Modified in Index At",
+      "category": "advanced",
+      "localizedCategory": "Advanced"
+    },
+    {
+      "name": "title",
+      "localizedName": "Name"
+    }
+  ],
+  "resultset": {
+    "results": [
+      {
+        "id": "Fabasoft Components:embedding-eval:test_dataset/water.docx:",
+        "location": "aHR0cHM6Ly9tYi1vYmxpdmF0aW9uLWRldmVsb3BtZW50LXB5dGhvbi1yZXNlYXJjaC0wLmJhY2tlbmQtbWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC1weXRob24tcmVzZWFyY2gubWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC5zdmMuY2x1c3Rlci5sb2NhbDo4NDQzL2p3dC9yZWFsbS9rdWJlcm5ldGVzLXRlc3QvYXBpL3YxL3F1ZXJ5LzIzMzAwOjQ2",
+        "rankScore": 34.4219,
+        "relevanceScore": 34.4219,
+        "properties": [
+          {
+            "id": "extension",
+            "name": "extension",
+            "data": [
+              {
+                "value": {
+                  "str": "docx"
+                }
+              }
+            ]
+          },
+          {
+            "id": "title",
+            "name": "Title",
+            "data": [
+              {
+                "value": {
+                  "str": "water.docx"
+                }
+              }
+            ]
+          },
+          {
+            "id": "content",
+            "name": "content",
+            "data": [
+              {
+                "value": {
+                  "str": ""
+                }
+              }
+            ]
+          },
+          {
+            "id": "mes:key",
+            "name": "Mindbreeze Key",
+            "data": [
+              {
+                "value": {
+                  "str": "test_dataset/water.docx"
+                }
+              }
+            ]
+          }
+        ],
+        "order": {
+          "num": 344219.0
+        }
+      }
+    ],
+    "prevAvail": false,
+    "nextAvail": false,
+    "orderDirection": "DESCENDING",
+    "perServiceDataset": [
+      {
+        "id": "https://frontend-mb-oblivation-development-python-research.apps.openshift.sq.fabasoft.com/search/",
+        "terminationCause": "NO_MORE_RESULTS",
+        "pagingState": {
+          "id": "unnamed",
+          "digest": "X2ZpV82m4Sigva+944Q5bg==",
+          "stateBase64": "EAAYACLLAQrIAQrDAWh0dHBzOi8vbWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC1weXRob24tcmVzZWFyY2gtMC5iYWNrZW5kLW1iLW9ibGl2YXRpb24tZGV2ZWxvcG1lbnQtcHl0aG9uLXJlc2VhcmNoLm1iLW9ibGl2YXRpb24tZGV2ZWxvcG1lbnQuc3ZjLmNsdXN0ZXIubG9jYWw6ODQ0My9qd3QvcmVhbG0va3ViZXJuZXRlcy10ZXN0L2FwaS92MS9xdWVyeS8yMzMwMBAB"
+        }
+      }
+    ]
+  },
+  "groupable": [
+    {
+      "name": "addrcity",
+      "localizedName": "City"
+    },
+    {
+      "name": "addrcountry",
+      "localizedName": "Country"
+    },
+    {
+      "name": "extension",
+      "localizedName": "File type"
+    },
+    {
+      "name": "organization",
+      "localizedName": "Organization"
+    },
+    {
+      "name": "addrstate",
+      "localizedName": "State"
+    },
+    {
+      "name": "objteamroom",
+      "localizedName": "Team Room"
+    }
+  ],
+  "showQuerySpellingAlternatives": false,
+  "orderDirectionAvailable": true,
+  "answers": [
+    {
+      "score": 0.8486196,
+      "text": {
+        "text": "<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"1\">Water is one of the most essential substances for life on Earth. Every living organism depends on it to survive. Humans, animals, and plants all rely on water for their daily functions\u2014drinking, growing, and maintaining balance within the<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p0\"/> environment. Without water, life as we know it would simply not exist<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p1\"/>.</p>\n<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"2\">For humans, water is vital for health. It helps regulate body temperature, transport nutrients, and remove waste. Clean and safe drinking water prevents dehydration and diseases, while access to sanitation supports overall well-being. In agriculture,<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p2\"/> water nourishes crops and sustains livestock, ensuring food security for communities around the world<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p3\"/>.</p>\nBeyond its biological importance, wat",
+        "contextBefore": "",
+        "contextAfter": "",
+        "textStartPos": 24,
+        "textEndPos": 725
+      },
+      "similarityScore": 0.8486196,
+      "propertyName": "content",
+      "properties": [
+        {
+          "id": "docid",
+          "name": "docid",
+          "data": [
+            {
+              "value": {
+                "num": 46.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "location",
+          "name": "location",
+          "data": [
+            {
+              "value": {
+                "str": "aHR0cHM6Ly9tYi1vYmxpdmF0aW9uLWRldmVsb3BtZW50LXB5dGhvbi1yZXNlYXJjaC0wLmJhY2tlbmQtbWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC1weXRob24tcmVzZWFyY2gubWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC5zdmMuY2x1c3Rlci5sb2NhbDo4NDQzL2p3dC9yZWFsbS9rdWJlcm5ldGVzLXRlc3QvYXBpL3YxL3F1ZXJ5LzIzMzAwOjQ2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "extension",
+          "name": "extension",
+          "data": [
+            {
+              "value": {
+                "str": "docx"
+              }
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "data": [
+            {
+              "value": {
+                "str": "water.docx"
+              }
+            }
+          ]
+        },
+        {
+          "id": "content",
+          "name": "content",
+          "data": [
+            {
+              "value": {
+                "str": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": "mes:key",
+          "name": "Mindbreeze Key",
+          "data": [
+            {
+              "value": {
+                "str": "test_dataset/water.docx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "score": 0.84536433,
+      "text": {
+        "text": "<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p0\"/> environment. Without water, life as we know it would simply not exist<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p1\"/>.\n<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"2\">For humans, water is vital for health. It helps regulate body temperature, transport nutrients, and remove waste. Clean and safe drinking water prevents dehydration and diseases, while access to sanitation supports overall well-being. In agriculture,<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p2\"/> water nourishes crops and sustains livestock, ensuring food security for communities around the world<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p3\"/>.</p>\n<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"3\">Beyond its biological importance, water also plays a key role in the economy and the environment. Rivers and oceans enable transportation, energy production, and recreation. Water shapes landscapes, supports biodiversity, and influences weather<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p4\"/> patterns<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p5\"/>.</p>\nHowever, despite its",
+        "contextBefore": "",
+        "contextAfter": "",
+        "textStartPos": 262,
+        "textEndPos": 963
+      },
+      "similarityScore": 0.84536433,
+      "propertyName": "content",
+      "properties": [
+        {
+          "id": "docid",
+          "name": "docid",
+          "data": [
+            {
+              "value": {
+                "num": 46.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "location",
+          "name": "location",
+          "data": [
+            {
+              "value": {
+                "str": "aHR0cHM6Ly9tYi1vYmxpdmF0aW9uLWRldmVsb3BtZW50LXB5dGhvbi1yZXNlYXJjaC0wLmJhY2tlbmQtbWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC1weXRob24tcmVzZWFyY2gubWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC5zdmMuY2x1c3Rlci5sb2NhbDo4NDQzL2p3dC9yZWFsbS9rdWJlcm5ldGVzLXRlc3QvYXBpL3YxL3F1ZXJ5LzIzMzAwOjQ2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "extension",
+          "name": "extension",
+          "data": [
+            {
+              "value": {
+                "str": "docx"
+              }
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "data": [
+            {
+              "value": {
+                "str": "water.docx"
+              }
+            }
+          ]
+        },
+        {
+          "id": "content",
+          "name": "content",
+          "data": [
+            {
+              "value": {
+                "str": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": "mes:key",
+          "name": "Mindbreeze Key",
+          "data": [
+            {
+              "value": {
+                "str": "test_dataset/water.docx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "score": 0.8408339,
+      "text": {
+        "text": "<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p2\"/> water nourishes crops and sustains livestock, ensuring food security for communities around the world<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p3\"/>.\n<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"3\">Beyond its biological importance, water also plays a key role in the economy and the environment. Rivers and oceans enable transportation, energy production, and recreation. Water shapes landscapes, supports biodiversity, and influences weather<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p4\"/> patterns<span breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"p5\"/>.</p>\n<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"4\">However, despite its abundance, water is a limited resource. Pollution, waste, and climate change threaten its availability and quality. Conserving water and protecting sources from contamination are essential steps toward a sustainable future.</p>\n<p breadcrumb=\"water.docx &gt; The Importance of Water\" tagid=\"5\">In essence, water is life\u2014it connects every part of our planet and every form of life. Recognizing its value and using it wisely is our shared responsibility.</p>",
+        "contextBefore": "",
+        "contextAfter": "",
+        "textStartPos": 584,
+        "textEndPos": 1346
+      },
+      "similarityScore": 0.8408339,
+      "propertyName": "content",
+      "properties": [
+        {
+          "id": "docid",
+          "name": "docid",
+          "data": [
+            {
+              "value": {
+                "num": 46.0
+              }
+            }
+          ]
+        },
+        {
+          "id": "location",
+          "name": "location",
+          "data": [
+            {
+              "value": {
+                "str": "aHR0cHM6Ly9tYi1vYmxpdmF0aW9uLWRldmVsb3BtZW50LXB5dGhvbi1yZXNlYXJjaC0wLmJhY2tlbmQtbWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC1weXRob24tcmVzZWFyY2gubWItb2JsaXZhdGlvbi1kZXZlbG9wbWVudC5zdmMuY2x1c3Rlci5sb2NhbDo4NDQzL2p3dC9yZWFsbS9rdWJlcm5ldGVzLXRlc3QvYXBpL3YxL3F1ZXJ5LzIzMzAwOjQ2"
+              }
+            }
+          ]
+        },
+        {
+          "id": "extension",
+          "name": "extension",
+          "data": [
+            {
+              "value": {
+                "str": "docx"
+              }
+            }
+          ]
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "data": [
+            {
+              "value": {
+                "str": "water.docx"
+              }
+            }
+          ]
+        },
+        {
+          "id": "content",
+          "name": "content",
+          "data": [
+            {
+              "value": {
+                "str": ""
+              }
+            }
+          ]
+        },
+        {
+          "id": "mes:key",
+          "name": "Mindbreeze Key",
+          "data": [
+            {
+              "value": {
+                "str": "test_dataset/water.docx"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

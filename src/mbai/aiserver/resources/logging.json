@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "json": {
+      "class": "logging.Formatter",
+      "format": "{\"@timestamp\": \"%(asctime)s.%(msecs)06dZ\", \"level\": \"%(levelname)s\", \"message\": \"%(message)s\"}",
+      "datefmt": "%Y-%m-%dT%H:%M:%S"
+    }
+  },
+  "handlers": {
+    "default": {
+      "class": "logging.StreamHandler",
+      "formatter": "json",
+      "stream": "ext://sys.stdout"
+    }
+  },
+  "root": {
+    "handlers": ["default"],
+    "level": "INFO"
+  },
+  "loggers": {
+    "uvicorn.access": {
+      "handlers": ["default"],
+      "level": "INFO",
+      "propagate": false
+    }
+  }
+}
